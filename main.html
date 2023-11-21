@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yubog</title>
+</head>
+
+<body>
+    <iframe id="boom" class="module" src="./modules/yes_no/module.html"></iframe>
+    <div class="module center">
+        <div class="timer center">timer</div>
+    </div>
+    <button onclick="start()">start</button>
+</body>
+
+<script>
+    let iframe = document.getElementById("boom");
+    let timer = {target: 0, timer: 0, elm: document.querySelector(".timer")};
+
+    function sendMessage() {
+        iframe.contentWindow.postMessage("explode", "*");
+    }
+
+    function start() {
+        
+    }
+
+    function startTimer(seconds) {
+        timer.target = Date.now() + seconds * 1000;
+        timer.timer = setInterval(() => {
+            let time = (timer.target - Date.now()) / 1000;
+            // show as clock
+            let minutes = Math.floor(time / 60);
+            let seconds = Math.floor(time % 60);
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            if (time <= 0) {
+                clearInterval(timer.timer);
+                return
+            }
+            timer.elm.innerHTML = minutes + ":" + seconds;
+        }, 100);
+    }
+
+    window.onmessage = function (e) {
+        console.log("parent: " + e.data);
+    }
+
+</script>
+
+<style>
+    .module {
+        background-color: gray;
+        aspect-ratio: 1/1;
+        width: 20%;
+        border: none;
+        border-radius: 20px;
+        margin: 2rem;
+    }
+
+    .timer {
+        font-family: monospace;
+        font-size: 4rem;
+        color: red;
+        background-color: black;
+        padding: 2rem 1.5rem;
+        width: 70%;
+    }
+
+    body {
+        background-color: #121212;
+        font-family: sans-serif;
+        display: flex;
+    }
+
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+</html>
