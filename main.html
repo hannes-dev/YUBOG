@@ -8,47 +8,38 @@
 </head>
 
 <body>
-    <iframe id="boom" class="module" src="./modules/yes_no/module.html"></iframe>
     <div class="module center">
-        <div class="timer center">timer</div>
+        <div id="timer" class="timer center">timer</div>
     </div>
-    <button onclick="start()">start</button>
 </body>
 
-<script>
-    let iframe = document.getElementById("boom");
-    let timer = {target: 0, timer: 0, elm: document.querySelector(".timer")};
+<script type="module">
+    import Bomb from "./BombLib.js";
+    let modules = ["./modules/yes_no/module.html", "./modules/yes_no/module.html" ,"./modules/yes_no/module.html"];
+    let module_frames = [];
 
-    function sendMessage() {
-        iframe.contentWindow.postMessage("explode", "*");
+    for (const module of modules) {
+        let iframe = document.createElement("iframe");
+        iframe.src = module;
+        iframe.className = "module";
+        document.body.appendChild(iframe);
+        module_frames.push(iframe);
     }
 
-    function start() {
-        
-    }
+    const bomb = new Bomb(module_frames, 120, 2);
 
-    function startTimer(seconds) {
-        timer.target = Date.now() + seconds * 1000;
-        timer.timer = setInterval(() => {
-            let time = (timer.target - Date.now()) / 1000;
-            // show as clock
-            let minutes = Math.floor(time / 60);
-            let seconds = Math.floor(time % 60);
-            if (seconds < 10) {
-                seconds = "0" + seconds;
-            }
-            if (time <= 0) {
-                clearInterval(timer.timer);
-                return
-            }
-            timer.elm.innerHTML = minutes + ":" + seconds;
-        }, 100);
+    const timer = document.getElementById("timer");
+    function tick() {
+        timer.innerHTML = bomb.time_left_string;
     }
+    window.addEventListener("tick", tick);
 
-    window.onmessage = function (e) {
-        console.log("parent: " + e.data);
+    function explode() {
+        timer.innerHTML = "BOOM!";
     }
+    window.addEventListener("explode", explode);
 
+    bomb.start(100);
 </script>
 
 <style>

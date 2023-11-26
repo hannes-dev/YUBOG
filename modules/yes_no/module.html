@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html>
+    
+<head>
+    <meta charset="UTF-8">
+</head>
 <body>
     <div class="box">
     <h1>Explode?</h1>
     <div class="middle">
-        <button style="background-color: green;" onclick="sendMessage()">Yes</button>
-        <button style="background-color: darkred;">No</button>
+        <button id="yes">Yes</button>
+        <button id="no">No</button>
     </div>
     </div>
 </body>
 
-<script>
-    function sendMessage() {
-        window.parent.postMessage("explode", "*");
-    }
+<script type="module">
+    import Bomb from "./ModuleLib.js";
+    const bomb = new Bomb();
 
-    window.onmessage = function(e) {
-        console.log("module: " + e.data);
+    document.getElementById("yes").addEventListener("click", yes);
+
+    function yes() {
+        bomb.strike();
     }
 </script>
 
@@ -31,6 +36,14 @@
 
     button:hover {
         opacity: 0.8;
+    }
+
+    #yes {
+        background-color: green;
+    }
+
+    #no {
+        background-color: darkred;
     }
 
     .buttons {
