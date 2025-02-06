@@ -26,7 +26,7 @@ export default class Bomb {
         this.timer_interval = setInterval(() => {
             this.time_left = this.seconds * 1000 - (Date.now() - this.start_time);
             if (this.time_left <= 0) {
-                this.stop();
+                this.explode();
                 return
             }
             window.dispatchEvent(tick);

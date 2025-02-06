@@ -15,13 +15,18 @@
 </body>
 
 <script type="module">
-    import Bomb from "./ModuleLib.js";
-    const bomb = new Bomb();
+    import BombModule from "../../ModuleLib.js";
+    const bombModule = new BombModule();
 
     document.getElementById("yes").addEventListener("click", yes);
+    document.getElementById("no").addEventListener("click", no);
 
     function yes() {
-        bomb.strike();
+        bombModule.sendStrike();
+    }
+
+    function no() {
+        bombModule.sendSolve();
     }
 </script>
 
