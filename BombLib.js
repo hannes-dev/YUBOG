@@ -4,15 +4,16 @@ export default class Bomb {
     constructor(modules, seconds, strikes_allowed) {
         this.total_time_ms = seconds * 1000;
         this.strikes_allowed = strikes_allowed; // 1 more explodes
-        console.log(this);
 
+        this.solved_modules = 0;
+        this.solvable_modules = modules.length; // TODO check for needy
         this.modules = {};
         this.registerModules(modules)
         this.batteries = this.generateBatteries();
         this.ports = this.generatePorts();
         this.serial = this.generateSerial(6);
 
-        window.onmessage = this.handleMessage;
+        addEventListener("message", this.handleMessage);
     }
 
     start() {
@@ -42,6 +43,7 @@ export default class Bomb {
             let module_id = self.crypto.randomUUID();
             this.modules[module_id] = {
                 solved: false,
+                strikes: 0,
                 hello: false,
                 url: "",
                 frame: module,
@@ -71,11 +73,26 @@ export default class Bomb {
         }
     }
 
-    strike() {
+    strike(module_id) {
+        console.log("strike received from ", this.modules[module_id]);
         this.strikes++;
-        console.log(this.strikes);
+        this.modules[module_id].strikes++;
         if (this.strikes > this.strikes_allowed) {
             this.explode();
+        }
+    }
+
+    solve(module_id) {
+        let module = this.modules[module_id]
+        if (!module.solved) {
+            console.log("solved ", module_id);
+            module.solved = true;
+            this.solved_modules += 1;
+            module.frame.classList.add("solved");
+        }
+        if (this.solved_modules == this.solvable_modules) {
+            console.log("fully solved bomb!");
+            this.finish();
         }
     }
 
@@ -84,8 +101,14 @@ export default class Bomb {
         window.dispatchEvent(new Event("explode"));
     }
 
+    finish() {
+        this.stop();
+        window.dispatchEvent(new Event("solved"));
+    }
+
     stop() {
         clearInterval(this.tick_interval);
+        removeEventListener("message", this.handleMessage);
     }
 
     get time_left_string() {
@@ -110,7 +133,10 @@ export default class Bomb {
             }
         }
         if (e.data.type == "strike") {
-            this.strike();
+            this.strike(e.data.module_id);
+        }
+        if (e.data.type == "solve") {
+            this.solve(e.data.module_id);
         }
     };
 

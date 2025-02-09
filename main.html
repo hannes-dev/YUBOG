@@ -33,11 +33,8 @@
         timer.innerHTML = bomb.time_left_string;
     }
     window.addEventListener("tick", tick);
-
-    function explode() {
-        timer.innerHTML = "BOOM!";
-    }
-    window.addEventListener("explode", explode);
+    window.addEventListener("explode", () => timer.innerHTML = "BOOM!");
+    window.addEventListener("solved", () => timer.innerHTML = "SOLVED");
 
     bomb.start();
 </script>
@@ -71,6 +68,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .solved {
+        background-color: greenyellow;
     }
 </style>
 
