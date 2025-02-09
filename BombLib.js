@@ -8,9 +8,9 @@ export default class Bomb {
 
         this.modules = {};
         this.registerModules(modules)
-        this.serial = this.generateSerial();
         this.batteries = this.generateBatteries();
         this.ports = this.generatePorts();
+        this.serial = this.generateSerial(6);
 
         window.onmessage = this.handleMessage;
     }
@@ -45,7 +45,7 @@ export default class Bomb {
                 hello: false,
                 url: "",
                 frame: module,
-            }; 
+            };
 
             module.onload = () => {
                 this.sendToModule("init", module_id, {});
@@ -61,8 +61,12 @@ export default class Bomb {
                 total_time_ms: this.total_time_ms,
                 start_time_ms: this.start_time_ms,
                 strikes_allowed: this.strikes_allowed,
-                seed: "ABCDEFG", // TODO
-                edgework: {}, // TODO
+                seed: this.serial, // using the serial as the seed is actually kind of cute
+                edgework: {
+                    batteries: this.batteries,
+                    ports: this.ports,
+                    serial: this.serial,
+                },
             })
         }
     }
@@ -97,7 +101,7 @@ export default class Bomb {
         if (e.data.type == "hello") {
             // module replies, mark it as such
             this.modules[e.data.module_id].hello = true;
-            
+
             // if all modules are ready, start game early
             if (this.allModulesHello()) {
                 console.log("all modules ready, starting game")
@@ -140,16 +144,40 @@ export default class Bomb {
         }
         this.modules[module_id].frame.contentWindow.postMessage(message, "*");
     }
-
-    generateSerial() {
-        return "ABC123";
-    }
-
+    
     generateBatteries() {
-        return 3;
+        let batteries = [];
+        for (let i  = 0; i < this.getRandomNumber(0, 4); i++) {
+            batteries.push(this.getRandomNumber(1, 2));
+        }
+        return batteries;
+    }
+    
+    generatePorts() {
+        const possiblePorts = ["DVI-D", "Parallel", "PS/2", "RJ-45", "Serial", "Stereo RCA"];
+        let portNumber = this.getRandomNumber(1, )
+        return possiblePorts.sort(() => Math.random() - 0.5).slice(0, 3)
+    }
+    
+    generateSerial(serial_length) {
+        // no Y to avoid vowel questions
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXZ";
+        const numbers = "0123456789";
+        const chars = letters + numbers;
+
+        let first   = letters[this.randomIndex(letters.length)];
+        let middle  = Array.from({ length: serial_length - 2 }, () => chars[this.randomIndex(chars.length)]).join('');
+        let last    = numbers[this.randomIndex(numbers.length)]
+        return first + middle + last;
     }
 
-    generatePorts() {
-        return ["Parallel", "Serial"];
+    // get a random number inclusive
+    getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
+
+    randomIndex(exclusive_max) {
+        return Math.floor(Math.random() * exclusive_max);
+    }
+      
 }
