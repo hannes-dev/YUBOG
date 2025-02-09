@@ -97,7 +97,13 @@ export default class Bomb {
         if (e.data.type == "hello") {
             // module replies, mark it as such
             this.modules[e.data.module_id].hello = true;
-            // TODO if all modules work, start the game early (loading screen?)
+            
+            // if all modules are ready, start game early
+            if (this.allModulesHello()) {
+                console.log("all modules ready, starting game")
+                clearTimeout(this.hello_timeout);
+                this.#startTimer();
+            }
         }
         if (e.data.type == "strike") {
             this.strike();
