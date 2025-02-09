@@ -87,8 +87,8 @@ export default class BombModule {
 
                 const event = new Event("yubog:init", e.data.data);
                 window.dispatchEvent(event);
-
-                window.parent.postMessage({type: "hello", id: this.module_id}, "*");
+                
+                this.#sendToBomb("hello", {});
                 break;
             }
         }
