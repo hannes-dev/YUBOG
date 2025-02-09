@@ -11,7 +11,7 @@ export default class Bomb {
         this.registerModules(modules)
         this.batteries = this.generateBatteries();
         this.ports = this.generatePorts();
-        this.serial = this.generateSerial(6);
+        this.serial = this.getOrGenSerial(6);
 
         addEventListener("message", this.handleMessage);
     }
@@ -185,7 +185,12 @@ export default class Bomb {
         return possiblePorts.sort(() => Math.random() - 0.5).slice(0, 3)
     }
     
-    generateSerial(serial_length) {
+    getOrGenSerial(serial_length) {
+        // check if serial was given in URL
+        let params = new URLSearchParams(window.location.search);
+        if (params.has("serial") && params.get("serial").length == serial_length) {
+            return params.get("serial");
+        }
         // no Y to avoid vowel questions
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXZ";
         const numbers = "0123456789";
