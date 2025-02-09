@@ -51,7 +51,7 @@ export default class BombModule {
         window.parent.postMessage(message, "*");
     }
 
-    handleMessage(e) {
+    handleMessage = (e) => {
         switch (e.data.type) {
             case 'tick': {
                 this.dynamic_gamestate.solved_modules = e.data.data.solved_modules;
