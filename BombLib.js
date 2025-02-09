@@ -19,13 +19,13 @@ export default class Bomb {
         this.waitForHello();
     }
 
-    startGame() {
+    #startTimer() {
         const tick = new Event("tick");
         this.start_time_ms = Date.now();
         this.startModules();
 
         // start ticking every ~100ms
-        this.timer_interval = setInterval(() => {
+        this.tick_interval = setInterval(() => {
             this.time_left =
                 this.total_time_ms - (Date.now() - this.start_time_ms);
             if (this.time_left <= 0) {
@@ -48,28 +48,9 @@ export default class Bomb {
             }; 
 
             module.onload = () => {
-                this.initModule(module_id);
+                this.sendToModule("init", module_id, {});
             }
         }
-    }
-
-    // send init to modules, wait for hello
-    waitForHello() {
-        this.hello_timeout = setTimeout(() => {
-            // check if all modules replied
-            for (let module_id in this.modules) {
-                if (!this.modules[module_id].hello) {
-                    console.error("Not all modules replied hello", this.modules[module_id]);
-                    return;
-                }
-            }
-            // if all modules are ready, start game
-            this.startGame();
-        }, 5000)
-    }
-
-    initModule(module_id) {
-        this.sendToModule("init", module_id, {});
     }
 
     // send start signal to modules
@@ -86,7 +67,6 @@ export default class Bomb {
         }
     }
 
-
     strike() {
         this.strikes++;
         console.log(this.strikes);
@@ -101,7 +81,7 @@ export default class Bomb {
     }
 
     stop() {
-        clearInterval(this.timer_interval);
+        clearInterval(this.tick_interval);
     }
 
     get time_left_string() {
@@ -123,6 +103,28 @@ export default class Bomb {
             this.strike();
         }
     };
+
+    // send init to modules, wait for hello
+    waitForHello() {
+        this.hello_timeout = setTimeout(() => {
+            // check if all modules replied
+            if (!this.allModulesHello) {
+                console.error("Not all modules replied hello", this.modules);
+                return;
+            }
+            // if all modules are ready, start game
+            this.#startTimer();
+        }, 5000)
+    }
+
+    allModulesHello() {
+        for (let module_id in this.modules) {
+            if (!this.modules[module_id].hello) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     sendToModule(type, module_id, data) {
         let message = {
