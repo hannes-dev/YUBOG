@@ -2,10 +2,12 @@ export default class BombModule {
     #lib_version = "0.0.0";
 
     PORTS = Object.freeze({
-        DVI: 'dvi',
-        SERIAL: 'serial',
-        PS2: 'ps2',
-        // TODO complete
+        DVI_D: 'DVI-D',
+        PARALLEL: 'Parallel',
+        PS2: 'PS/2',
+        SERIAL: 'Serial',
+        RJ45: 'RJ-45',
+        STEREO_RCA: 'Stereo RCA'
     });
 
     constructor() {

@@ -181,8 +181,8 @@ export default class Bomb {
     
     generatePorts() {
         const possiblePorts = ["DVI-D", "Parallel", "PS/2", "RJ-45", "Serial", "Stereo RCA"];
-        let portNumber = this.getRandomNumber(1, )
-        return possiblePorts.sort(() => Math.random() - 0.5).slice(0, 3)
+        let portNumber = this.getRandomNumber(1, 3);
+        return possiblePorts.sort(() => Math.random() - 0.5).slice(0, portNumber);
     }
     
     getOrGenSerial(serial_length) {
