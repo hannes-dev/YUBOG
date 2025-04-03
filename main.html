@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Yubog</title>
-    </head>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yubog</title>
+</head>
 
 <head>
     <meta charset="UTF-8">
@@ -16,62 +17,76 @@
     <div id="module_box">
         <div class="module center">
             <div id="timer" class="timer center">timer</div>
-            <div id="strike_container"></div>
+            <div id="strike_container" class="strike_container"></div>
         </div>
-        <p id="serial"></p>
-    </body>
+    </div>
+    <p id="serial"></p>
+    <p id="ports"></p>
+    <p id="batteries"></p>
+</body>
 
-    <script type="module">
-        import Bomb from "./BombLib.js";
-        let modules = [
-            "./modules/yes_no/module.html",
-            "./modules/yes_no/module.html",
-            "./modules/yes_no/module.html",
-        ];
-        let module_frames = [];
+<script type="module">
+    import Bomb from "./BombLib.js";
+    let modules = [
+        "./modules/yes_no/module.html",
+        "./modules/yes_no/module.html",
+        "./modules/yes_no/module.html",
+    ];
+    let module_frames = [];
 
-        for (const module of modules) {
-            let iframe = document.createElement("iframe");
-            iframe.src = module;
-            iframe.className = "module";
-            module_box.appendChild(iframe);
-            module_frames.push(iframe);
-        }
+    for (const module of modules) {
+        let iframe = document.createElement("iframe");
+        iframe.src = module;
+        iframe.className = "module";
+        module_box.appendChild(iframe);
+        module_frames.push(iframe);
+    }
 
     const STRIKES_ALLOWED = 2;
-    const BOMB_TIME_S = 2*60;
+    const BOMB_TIME_S = 2 * 60;
 
     const bomb = new Bomb(module_frames, BOMB_TIME_S, STRIKES_ALLOWED);
 
-    const strike_container = document.getElementById("strike_container");
-    for (let i = 0; i < STRIKES_ALLOWED; i++) {
-        strike_container.innerHTML += '<div id="strike">X<div>';
-    }
-
     const timer = document.getElementById("timer");
-    
+
     window.addEventListener("tick", () => timer.innerHTML = bomb.time_left_string);
     window.addEventListener("explode", () => timer.innerHTML = "BOOM!");
     window.addEventListener("solved", () => timer.innerHTML = "SOLVED");
 
-        document.getElementById("serial").innerText = bomb.serial;
-
-        bomb.start();
-    </script>
-
-    <style>
-        #module_box {
-            display: flex;
+    function updateStrikes() {
+        strike_container.innerHTML = "";
+        for (let i = 0; i < STRIKES_ALLOWED; i++) {
+            if (i < bomb.getStrikes()) {
+                strike_container.innerHTML += '<span style="color: red;">X</span>';
+            } else {
+                strike_container.innerHTML += '<span style="color: white;">X</span>';
+            }
         }
+    }
+    window.addEventListener("strike", updateStrikes);
 
-        .module {
-            background-color: gray;
-            aspect-ratio: 1/1;
-            width: 20%;
-            border: none;
-            border-radius: 20px;
-            margin: 2rem;
-        }
+    document.getElementById("serial").innerText = "Serial: " + bomb.serial;
+    document.getElementById("ports").innerText = "Ports: " + bomb.ports;
+    document.getElementById("batteries").innerText = "Batteries: " + bomb.batteries;
+
+
+    updateStrikes();
+    bomb.start();
+</script>
+
+<style>
+    #module_box {
+        display: flex;
+    }
+
+    .module {
+        background-color: gray;
+        aspect-ratio: 1/1;
+        width: 20%;
+        border: none;
+        border-radius: 20px;
+        margin: 2rem;
+    }
 
     .module {
         background-color: gray;
@@ -84,11 +99,19 @@
 
     .timer {
         font-family: monospace;
-        font-size: 6vmin;
         color: red;
+        font-size: 4rem;
         background-color: black;
         padding: 10% 5%;
         width: 70%;
+    }
+    
+    .strike_container {
+        background-color: #121212;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        font-size: 4rem;
+        border-radius: 12px;
     }
 
     body {
@@ -96,11 +119,18 @@
         background-color: #121212;
         font-family: sans-serif;
         user-select: none;
-        font-size: 10vmin;
     }
 
-        .solved {
-            background-color: greenyellow;
-        }
-    </style>
+    .center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .solved {
+        background-color: greenyellow;
+    }
+</style>
+
 </html>

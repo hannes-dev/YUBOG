@@ -80,6 +80,7 @@ export default class Bomb {
         if (this.strikes > this.strikes_allowed) {
             this.explode();
         }
+        window.dispatchEvent(new Event("strike"));
     }
 
     solve(module_id) {
@@ -207,6 +208,10 @@ export default class Bomb {
 
     randomIndex(exclusive_max) {
         return Math.floor(Math.random() * exclusive_max);
+    }
+
+    getStrikes() {
+        return this.strikes;
     }
       
 }
