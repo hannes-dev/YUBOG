@@ -114,10 +114,8 @@ export default class Bomb {
     get time_left_string() {
         let minutes = Math.floor(this.time_left / 60000);
         let seconds = Math.floor((this.time_left - minutes * 60000) / 1000);
-        if (seconds < 10) {
-            seconds = "0" + seconds;
-        }
-        return minutes + ":" + seconds;
+        
+        return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     }
 
     handleMessage = (e) => {

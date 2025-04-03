@@ -11,6 +11,7 @@
     <div id="module_box">
         <div class="module center">
             <div id="timer" class="timer center">timer</div>
+            <div id="strike_container"></div>
         </div>
     </div>
     <p id="serial"></p>
@@ -29,10 +30,21 @@
         module_frames.push(iframe);
     }
 
-    const bomb = new Bomb(module_frames, 120, 2);
+    const STRIKES_ALLOWED = 2;
+    const BOMB_TIME_S = 2*60;
+
+    const bomb = new Bomb(module_frames, BOMB_TIME_S, STRIKES_ALLOWED);
+
+    const strike_container = document.getElementById("strike_container");
+    for (let i = 0; i < STRIKES_ALLOWED; i++) {
+        strike_container.innerHTML += '<div id="strike">X<div>';
+    }
 
     const timer = document.getElementById("timer");
-    window.addEventListener("tick", () => timer.innerHTML = bomb.time_left_string);
+    
+    window.addEventListener("tick", () => {
+        timer.innerHTML = bomb.time_left_string;
+    });
     window.addEventListener("explode", () => timer.innerHTML = "BOOM!");
     window.addEventListener("solved", () => timer.innerHTML = "SOLVED");
 
@@ -52,16 +64,16 @@
         aspect-ratio: 1/1;
         width: 20%;
         border: none;
-        border-radius: 20px;
-        margin: 2rem;
+        border-radius: 10%;
+        margin: 2vmin;
     }
 
     .timer {
         font-family: monospace;
-        font-size: 4rem;
+        font-size: 6vmin;
         color: red;
         background-color: black;
-        padding: 2rem 1.5rem;
+        padding: 10% 5%;
         width: 70%;
     }
 
@@ -69,6 +81,8 @@
         color: white;
         background-color: #121212;
         font-family: sans-serif;
+        user-select: none;
+        font-size: 10vmin;
     }
 
     .center {
