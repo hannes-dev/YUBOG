@@ -116,6 +116,13 @@ export default class BombModule {
         return this.static_gamestate.strikes_received;
     }
 
+    getBombTimeString() {
+        let minutes = Math.floor(this.dynamic_gamestate.time_left / 60000);
+        let seconds = Math.floor((this.dynamic_gamestate.time_left - minutes * 60000) / 1000);
+        
+        return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+    }
+
     // Elapsed time, **in milliseconds**
     getTimeElapsedMs() {
         return  Date.now() - this.start_time_ms;
