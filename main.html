@@ -49,11 +49,27 @@
 
     const timer = document.getElementById("timer");
 
-    window.addEventListener("tick", () => timer.innerHTML = bomb.time_left_string);
-    window.addEventListener("explode", () => timer.innerHTML = "BOOM!");
+    const beep_sound = new Audio("./sounds/beep.ogg");
+    const boom_sound = new Audio("./sounds/boom.ogg");
+    const strike_sound = new Audio("./sounds/strike.ogg");
+
+    window.addEventListener("tick", () => {
+        if (timer.innerHTML != bomb.time_left_string) {
+            beep_sound.play();
+        }
+        timer.innerHTML = bomb.time_left_string;
+    });
+    window.addEventListener("explode", () => {
+        boom_sound.play();
+        timer.innerHTML = "BOOM!";
+    });
     window.addEventListener("solved", () => timer.innerHTML = "SOLVED");
 
     function updateStrikes() {
+        if (bomb.start_time_ms && bomb.getStrikes() <= STRIKES_ALLOWED) {
+            strike_sound.play();
+        }
+
         strike_container.innerHTML = "";
         for (let i = 0; i < STRIKES_ALLOWED; i++) {
             if (i < bomb.getStrikes()) {
@@ -105,7 +121,7 @@
         padding: 10% 5%;
         width: 70%;
     }
-    
+
     .strike_container {
         background-color: #121212;
         margin-top: 0.5rem;
