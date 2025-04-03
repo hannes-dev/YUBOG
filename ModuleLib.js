@@ -117,8 +117,8 @@ export default class BombModule {
     }
 
     getBombTimeString() {
-        let minutes = Math.floor(this.dynamic_gamestate.time_left / 60000);
-        let seconds = Math.floor((this.dynamic_gamestate.time_left - minutes * 60000) / 1000);
+        let minutes = Math.floor(this.getTimeRemainingMs() / 60000);
+        let seconds = Math.floor((this.getTimeRemainingMs() - minutes * 60000) / 1000);
         
         return String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     }
