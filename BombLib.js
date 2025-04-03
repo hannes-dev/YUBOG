@@ -34,7 +34,17 @@ export default class Bomb {
                 return;
             }
             window.dispatchEvent(tick);
+            for (let module_id in this.modules) {
+                this.sendToModule("tick", module_id, {
+                    solved_modules: this.countSolvedModules(),
+                    strikes_received: this.strikes,
+                });
+            }
         }, 100);
+    }
+
+    countSolvedModules() {
+        return Object.values(this.modules).filter(module => module.solved).length;
     }
 
     // generate a UUID and prepare data
