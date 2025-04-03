@@ -59,7 +59,7 @@ export default class Bomb {
     startModules() {
         for (let module_id in this.modules) {
             this.sendToModule("start", module_id, {
-                total_modules: this.modules.length,
+                total_modules: Object.keys(this.modules).length,
                 total_time_ms: this.total_time_ms,
                 start_time_ms: this.start_time_ms,
                 strikes_allowed: this.strikes_allowed,
