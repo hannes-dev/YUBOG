@@ -123,7 +123,7 @@ export default class BombModule {
 
     // Remaining time, **in milliseconds**
     getTimeRemainingMs() {
-        this.static_gamestate.total_time_ms - this.getTimeElapsedMs();
+        return this.static_gamestate.total_time_ms - this.getTimeElapsedMs();
     }
 
     // Total time the bomb can tick before exploding, **in milliseconds**
