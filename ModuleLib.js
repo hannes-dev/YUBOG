@@ -67,7 +67,7 @@ export default class BombModule {
             case 'start': {
                 this.static_gamestate.solved_modules = 0;
                 this.static_gamestate.total_modules = e.data.data.total_modules;
-                this.static_gamestate.total_time_ms = e.data.data.bomb_duration_ms;
+                this.static_gamestate.total_time_ms = e.data.data.total_time_ms;
                 this.static_gamestate.stikes_allowed = e.data.data.strikes_allowed;
                 this.static_gamestate.seed = e.data.data.seed;
                 this.static_gamestate.start_time_ms = e.data.data.start_time_ms;
@@ -125,7 +125,7 @@ export default class BombModule {
 
     // Elapsed time, **in milliseconds**
     getTimeElapsedMs() {
-        return  Date.now() - this.start_time_ms;
+        return  Date.now() - this.static_gamestate.start_time_ms;
     }
 
     // Remaining time, **in milliseconds**
