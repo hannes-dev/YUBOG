@@ -9,12 +9,14 @@ const randomNum = Math.floor(Math.random() * 4);
         
 export function clicked() {
      const fillColors = ["yellow","blue","white","red"];
-     document.querySelector('#indicator rect').setAttribute("fill", fillColors[randomNum]);
+     document.querySelector('#rect').setAttribute("fill", fillColors[randomNum]);
 }
 
 export function buttonReleased() {
-    document.querySelector('#indicator rect').setAttribute("fill", "grey")
+    document.querySelector('#rect').setAttribute("fill", "grey")
 }
+
+
 // Function to change the button color
 function changeButtonColor() {
      const bgcolors = ["yellow","red","white","blue", "black"];
