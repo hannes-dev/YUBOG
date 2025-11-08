@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bomb Manual</title>
+    <link type="text/css" rel="stylesheet" href="manual-parser/bombstyle.css"/>
+</head>
+<body>
+<div id="modules">
+
+</div>
+</body>
+</html>
+
+
+<script src="manual-parser/bundle.js"></script>
+
+<script>
+
+    // TESTING
+    const manual_container = document.getElementById("modules");
+
+    window.Parser.parseManuals(new Set([
+        "./modules/yes_no/module.html",
+        "./modules/yes_no/module.html",
+        "./modules/yes_no/module.html",
+        "./modules/wires/module.html",
+    ]))
+        .then(
+            (manuals) => manual_container.innerHTML = manuals.map((manual) => `<div class="module">${manual}</div>`).join("")
+        );
+
+</script>

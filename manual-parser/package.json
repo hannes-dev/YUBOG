@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "marked": "^16.4.1",
+    "path": "^0.12.7"
+  }
+}
