@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Yubog</title>
 </head>
 
@@ -14,19 +14,20 @@
 </head>
 
 <body>
-    <div id="module_box">
-        <div class="module center">
-            <div id="timer" class="timer center">timer</div>
-            <div id="strike_container" class="strike_container"></div>
-        </div>
+<div id="module_box">
+    <div class="module center">
+        <div id="timer" class="timer center">timer</div>
+        <div id="strike_container" class="strike_container"></div>
     </div>
-    <p id="serial"></p>
-    <p id="ports"></p>
-    <p id="batteries"></p>
+</div>
+<p id="serial"></p>
+<p id="ports"></p>
+<p id="batteries"></p>
 </body>
 
 <script type="module">
     import Bomb from "./BombLib.js";
+
     let modules = [
         "./modules/yes_no/module.html",
         "./modules/yes_no/module.html",
@@ -79,6 +80,7 @@
             }
         }
     }
+
     window.addEventListener("strike", updateStrikes);
 
     document.getElementById("serial").innerText = "Serial: " + bomb.serial;
@@ -93,6 +95,7 @@
 <style>
     #module_box {
         display: flex;
+        flex-wrap: wrap;
     }
 
     .module {
