@@ -24,7 +24,8 @@ async function parseManuals(module_list) {
 }
 
 async function getManual(module_location) {
-    let response = await fetch(path.join(module_location, "../manual.md"));
+    module_location = module_location.replace(/\/[^\/]*$/, "/manual.md")
+    let response = await fetch(module_location);
     return response.text();
 }
 

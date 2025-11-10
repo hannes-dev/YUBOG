@@ -1,5 +1,3 @@
-![image](/modules/yes_no/YesNoComponent.svg)
-
 # <ins>On the Subject of Yes and No</ins>
 
 <f>Decisions, decisions. Sometimes the simplest choice hides the most explosive consequences.</f> <f>Remember:

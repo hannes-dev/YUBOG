@@ -1,4 +1,4 @@
-![image](/modules/wires/WireComponent.svg)
+![image](https://www.bombmanual.com/web/img/module-icons/WireComponent.svg)
 
 # <ins>On the Subject of Wires</ins>
 

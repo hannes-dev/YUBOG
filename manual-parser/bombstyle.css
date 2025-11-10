@@ -2,7 +2,7 @@
     font-family: 'Special Elite';
     src: local('Special Elite'),
     local('Special Elite Regular'),
-    url('/manual-parser/SpecialElite-webfont.woff') format('woff');
+    url('./SpecialElite-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
