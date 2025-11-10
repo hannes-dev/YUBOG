@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="box">
+        <button class="pushable" id="the-button">
+            <div class="front">
+              Push me
+            </div>
+          </button>
+    </div>
+</body>
+
+<script type="module">
+    import BombModule from "../../ModuleLib.js";
+    const bombModule = new BombModule();
+
+    document.getElementById("the-button").addEventListener("click", no);
+
+    function yes() {
+        bombModule.sendStrike();
+    }
+
+    function no() {
+        bombModule.sendSolve();
+    }
+</script>
+
+<style>
+    .pushable {
+        background: hsl(340deg 100% 25%);
+        border-radius: 100%;
+        aspect-ratio: 1/1;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        width: 75%;
+    }
+    .front {
+        display: block;
+        border-radius: 100%;
+        aspect-ratio: 1/1;
+        font-size: 1.25rem;
+        background: hsl(345deg 100% 30%);
+        color: white;
+        transform: translateY(-12px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pushable:active .front {
+        transform: translateY(-2px);
+        transition-duration: 100ms;
+    }
+
+
+    .box {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0%;
+        color: white;
+    }
+</style>
+</html>
