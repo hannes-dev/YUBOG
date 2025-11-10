@@ -9,7 +9,8 @@
 
 html {
     font-family: 'Special Elite', 'Courier New', monospace;
-    background: url("https://bombmanual.com/web/img/background/web-background.jpg");
+    background: url("./background.jpg");
+    background-size: 50% 50%;
 }
 
 .module {

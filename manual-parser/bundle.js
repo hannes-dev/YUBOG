@@ -94,7 +94,7 @@ async function parseManuals(module_list) {
                     gfm: true,
                 }
             ).replaceAll(/<f>(.*)<\/f>/sg, "<p class='flavour-text'>$1</p>")
-                .replaceAll(/<thead>\s*<tr>\s*<th>\s*<\/th>\s*<\/tr>\s*<\/thead>/gs, "")
+                .replaceAll(/<thead>\s*<tr>\s*(<th>\s*<\/th>\s*)*<\/tr>\s*<\/thead>/gs, "")
         );
     }
     return parsedManuals;
